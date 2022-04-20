@@ -11,6 +11,27 @@ public class World : MonoBehaviour
 
 	private void Update()
 	{
-		Vector2 start = map.Count == 0 ? Vector2.zero : map.OrderBy(space => space.Value.Count).First().Key;
+		Iterate();
+	}
+
+	private void Iterate()
+	{
+		// Find a space to work on
+		Vector2 start = Vector2.zero; // TODO
+
+		// Decide that space
+		List<WorldPiece> possibilities = map.ContainsKey(start) ? map[start] : new List<WorldPiece>(WorldPiece.pieces);
+		WorldPiece chosenPiece = WeightSelector.RandomWeighted(possibilities);
+
+		map[start] = new List<WorldPiece>();
+		map[start].Add(chosenPiece);
+
+		// Propagate
+		Propagate(start);
+	}
+
+	private void Propagate(Vector2 space)
+	{
+
 	}
 }

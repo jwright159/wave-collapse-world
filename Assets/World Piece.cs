@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "World Piece")]
-public class WorldPiece : ScriptableObject
+public class WorldPiece : ScriptableObject, IWeighted
 {
 	public static List<WorldPiece> pieces = new List<WorldPiece>();
 
@@ -14,12 +14,15 @@ public class WorldPiece : ScriptableObject
 	public PieceMaterial[] westID;
 	public PieceMaterial[] upID;
 	public PieceMaterial[] downID;
+	public float weight = 1;
 
 	public bool quarterRotationSymmetry;
 	public bool halfRotationSymmetry;
 	public bool threeQuarterRotationSymmetry;
 
 	private bool awoken;
+
+	public float Weight => weight;
 
 	private void Awake()
 	{
