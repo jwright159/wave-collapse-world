@@ -49,8 +49,8 @@ public class WackyGrid : MonoBehaviour
 						int leftCorner = thisCorner - (1) * 2;
 						int leftCenter = thisCenter - (1) * 2;
 
-						//edges.Add((leftCorner, thisCorner));
-						//edges.Add((leftCenter, thisCenter));
+						edges.Add((leftCorner, thisCorner));
+						edges.Add((leftCenter, thisCenter));
 						if ((y > 0 || z > 0) && (y < yways - 1 || z < zways - 1))
 							(x == 0 || y == 0 || z == 0 || y == yways - 1 || z == zways - 1 ? edges : edgesValidForRemoval).Add((leftCenter, thisCorner));
 					}
@@ -60,8 +60,8 @@ public class WackyGrid : MonoBehaviour
 						int downCorner = thisCorner - (xways) * 2;
 						int downCenter = thisCenter - (xways) * 2;
 
-						//edges.Add((downCorner, thisCorner));
-						//edges.Add((downCenter, thisCenter));
+						edges.Add((downCorner, thisCorner));
+						edges.Add((downCenter, thisCenter));
 						if ((x > 0 || z > 0) && (x < xways - 1 || z < zways - 1))
 							(x == 0 || y == 0 || z == 0 || x == xways - 1 || z == zways - 1 ? edges : edgesValidForRemoval).Add((downCenter, thisCorner));
 					}
@@ -71,8 +71,8 @@ public class WackyGrid : MonoBehaviour
 						int backCorner = thisCorner - (xways * yways) * 2;
 						int backCenter = thisCenter - (xways * yways) * 2;
 
-						//edges.Add((backCorner, thisCorner));
-						//edges.Add((backCenter, thisCenter));
+						edges.Add((backCorner, thisCorner));
+						edges.Add((backCenter, thisCenter));
 						if ((x > 0 || y > 0) && (x < xways - 1 || y < yways - 1))
 							(x == 0 || y == 0 || z == 0 || x == xways - 1 || y == yways - 1 ? edges : edgesValidForRemoval).Add((backCenter, thisCorner));
 					}
