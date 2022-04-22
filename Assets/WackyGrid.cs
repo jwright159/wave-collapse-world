@@ -6,7 +6,7 @@ using UnityEngine;
 public class WackyGrid : MonoBehaviour
 {
 	private Mesh mesh;
-	private Cell[,,,] cells;
+	private Dictionary<CellDirection, Cell>[,,] cells;
 
 	private const int xways = 2, yways = 2, zways = 2;
 
@@ -25,21 +25,14 @@ public class WackyGrid : MonoBehaviour
 		int[,,,] vertexGrid = new int[xways + 1, yways + 1, zways + 1, 2];
 		List<(int, int)> edges = new List<(int, int)>();
 		List<(int, int)> edgesValidForRemoval = new List<(int, int)>();
-		cells = new Cell[xways, yways, zways, 12];
-		/* Cell rotation list:
-		 * forward up
-		 * forward left
-		 * forward down
-		 * forward right
-		 * right up
-		 * right forward
-		 * right down
-		 * right back
-		 * up forward
-		 * up left
-		 * up back
-		 * up right
-		 */
+		if (cells == null)
+		{
+			cells = new Dictionary<CellDirection, Cell>[xways, yways, zways];
+			for (int x = 0; x < xways; x++)
+				for (int y = 0; y < yways; y++)
+					for (int y = 0; y < yways; y++)
+						cells = new Cell[xways, yways, zways];
+		}
 
 		for (int z = 0; z <= zways; z++)
 		{
@@ -114,62 +107,175 @@ public class WackyGrid : MonoBehaviour
 						edgesValidForRemoval.Add((vertexGrid[x - 1, y - 1, z - 1, 1], vertexGrid[x, y, z, 0]));
 					}
 
-					if (x > 0 && y > 0 && z > 0 && z < zways)
-						cells[x - 1, y - 1, z - 1, 0] = new Cell
-						{
-							mesh = mesh,
-							vertices = new int[]
+					if (z > 0 && z < zways && false)
+					{
+						if (x > 0 && y > 0)
+							cells[x - 1, y - 1, z - 1, 0] = new Cell
 							{
-								vertexGrid[x - 1, y - 1, z - 1, 1],
-								vertexGrid[x - 1, y - 1, z, 1],
-								vertexGrid[x - 1, y, z, 0],
-								vertexGrid[x, y, z, 0],
-							},
-							neighbors = new (int, int, int, int)[]
-							{
-								(x - 1, y - 1, z - 1, 1),
-								(x - 1, y - 1, z - 1, 3),
-							}
-						};
+								mesh = mesh,
+								vertices = new int[]
+								{
+									vertexGrid[x - 1, y - 1, z - 1, 1],
+									vertexGrid[x - 1, y - 1, z, 1],
+									vertexGrid[x - 1, y, z, 0],
+									vertexGrid[x, y, z, 0],
+								},
+								neighbors = new (int, int, int, int)[]
+								{
+									(x - 1, y - 1, z - 1, 1),
+									(x - 1, y - 1, z - 1, 3),
+								}
+							};
 
-					if (x < xways && y > 0 && z > 0 && z < zways)
-						cells[x, y - 1, z - 1, 1] = new Cell
-						{
-							mesh = mesh,
-							vertices = new int[]
+						if (x < xways && y > 0)
+							cells[x, y - 1, z - 1, 1] = new Cell
 							{
-								vertexGrid[x, y - 1, z - 1, 1],
-								vertexGrid[x, y - 1, z, 0],
-								vertexGrid[x, y - 1, z, 1],
-								vertexGrid[x, y, z, 0],
-							},
-						};
+								mesh = mesh,
+								vertices = new int[]
+								{
+									vertexGrid[x, y - 1, z - 1, 1],
+									vertexGrid[x, y - 1, z, 0],
+									vertexGrid[x, y - 1, z, 1],
+									vertexGrid[x, y, z, 0],
+								},
+							};
 
-					if (x > 0 && y < yways && z > 0 && z < zways)
-						cells[x - 1, y, z - 1, 2] = new Cell
-						{
-							mesh = mesh,
-							vertices = new int[]
+						if (x > 0 && y < yways)
+							cells[x - 1, y, z - 1, 2] = new Cell
 							{
-								vertexGrid[x - 1, y, z - 1, 1],
-								vertexGrid[x - 1, y, z, 0],
-								vertexGrid[x - 1, y, z, 1],
-								vertexGrid[x, y, z, 0],
-							},
-						};
+								mesh = mesh,
+								vertices = new int[]
+								{
+									vertexGrid[x - 1, y, z - 1, 1],
+									vertexGrid[x - 1, y, z, 0],
+									vertexGrid[x - 1, y, z, 1],
+									vertexGrid[x, y, z, 0],
+								},
+							};
 
-					if (x > 0 && y > 0 && z > 0 && z < zways)
-						cells[x - 1, y - 1, z - 1, 3] = new Cell
-						{
-							mesh = mesh,
-							vertices = new int[]
+						if (x > 0 && y > 0)
+							cells[x - 1, y - 1, z - 1, 3] = new Cell
 							{
-								vertexGrid[x - 1, y - 1, z - 1, 1],
-								vertexGrid[x - 1, y - 1, z, 1],
-								vertexGrid[x, y - 1, z, 0],
-								vertexGrid[x, y, z, 0],
-							},
-						};
+								mesh = mesh,
+								vertices = new int[]
+								{
+									vertexGrid[x - 1, y - 1, z - 1, 1],
+									vertexGrid[x - 1, y - 1, z, 1],
+									vertexGrid[x, y - 1, z, 0],
+									vertexGrid[x, y, z, 0],
+								},
+							};
+					}
+
+					if (x > 0 && x < xways && false)
+					{
+						if (y > 0 && z > 0)
+							cells[x - 1, y - 1, z - 1, 4] = new Cell
+							{
+								mesh = mesh,
+								vertices = new int[]
+								{
+									vertexGrid[x - 1, y - 1, z - 1, 1],
+									vertexGrid[x, y - 1, z - 1, 1],
+									vertexGrid[x, y, z - 1, 0],
+									vertexGrid[x, y, z, 0],
+								},
+							};
+
+						if (y > 0 && z > 0)
+							cells[x - 1, y - 1, z - 1, 5] = new Cell
+							{
+								mesh = mesh,
+								vertices = new int[]
+								{
+									vertexGrid[x - 1, y - 1, z - 1, 1],
+									vertexGrid[x, y - 1, z - 1, 1],
+									vertexGrid[x, y - 1, z, 0],
+									vertexGrid[x, y, z, 0],
+								},
+							};
+
+						if (y < yways && z > 0)
+							cells[x - 1, y, z - 1, 6] = new Cell
+							{
+								mesh = mesh,
+								vertices = new int[]
+								{
+									vertexGrid[x - 1, y, z - 1, 1],
+									vertexGrid[x, y, z - 1, 0],
+									vertexGrid[x, y, z - 1, 1],
+									vertexGrid[x, y, z, 0],
+								},
+							};
+
+						if (y > 0 && z < zways)
+							cells[x - 1, y - 1, z, 7] = new Cell
+							{
+								mesh = mesh,
+								vertices = new int[]
+								{
+									vertexGrid[x - 1, y - 1, z, 1],
+									vertexGrid[x, y - 1, z, 0],
+									vertexGrid[x, y - 1, z, 1],
+									vertexGrid[x, y, z, 0],
+								},
+							};
+					}
+
+					if (y > 0 && y < yways)
+					{
+						if (x > 0 && z > 0)
+							cells[x - 1, y - 1, z - 1, 8] = new Cell
+							{
+								mesh = mesh,
+								vertices = new int[]
+								{
+									vertexGrid[x - 1, y - 1, z - 1, 1],
+									vertexGrid[x, y - 1, z - 1, 1],
+									vertexGrid[x, y, z - 1, 0],
+									vertexGrid[x, y, z, 0],
+								},
+							};
+
+						if (x > 0 && z > 0 && false)
+							cells[x - 1, y - 1, z - 1, 9] = new Cell
+							{
+								mesh = mesh,
+								vertices = new int[]
+								{
+									vertexGrid[x - 1, y - 1, z - 1, 1],
+									vertexGrid[x, y - 1, z - 1, 1],
+									vertexGrid[x, y - 1, z, 0],
+									vertexGrid[x, y, z, 0],
+								},
+							};
+
+						if (x < xways && z > 0 && false)
+							cells[x - 1, y, z - 1, 10] = new Cell
+							{
+								mesh = mesh,
+								vertices = new int[]
+								{
+									vertexGrid[x - 1, y, z - 1, 1],
+									vertexGrid[x, y, z - 1, 0],
+									vertexGrid[x, y, z - 1, 1],
+									vertexGrid[x, y, z, 0],
+								},
+							};
+
+						if (x > 0 && z < zways && false)
+							cells[x - 1, y - 1, z, 11] = new Cell
+							{
+								mesh = mesh,
+								vertices = new int[]
+								{
+									vertexGrid[x - 1, y - 1, z, 1],
+									vertexGrid[x, y - 1, z, 0],
+									vertexGrid[x, y - 1, z, 1],
+									vertexGrid[x, y, z, 0],
+								},
+							};
+					}
 				}
 			}
 		}
@@ -190,8 +296,8 @@ public class WackyGrid : MonoBehaviour
 
 			Gizmos.DrawWireSphere(cell.Center, 0.05f);
 			if (cell.neighbors != null)
-				foreach ((int x, int y, int z, int w) in cell.neighbors)
-					Gizmos.DrawRay(cell.Center, (cells[x, y, z, w].Center - cell.Center) * 0.4f);
+				foreach ((int x, int y, int z, CellDirection w) in cell.neighbors)
+					Gizmos.DrawRay(cell.Center, (cells[x, y, z][w].Center - cell.Center) * 0.4f);
 		}
 	}
 }
@@ -201,7 +307,7 @@ public struct Cell
 	public Mesh mesh;
 	public int[] vertices;
 	public (int, int)[] edges;
-	public (int, int, int, int)[] neighbors;
+	public (int, int, int, CellDirection)[] neighbors;
 
 	private Vector3 center;
 	public Vector3 Center {
@@ -215,4 +321,20 @@ public struct Cell
 			return center;
 		}
 	}
+}
+
+public enum CellDirection
+{
+	ForwardUp,
+	ForwardLeft,
+	ForwardDown,
+	ForwardRight,
+	RightUp,
+	RightForward,
+	RightDown,
+	RightBack,
+	UpForward,
+	UpLeft,
+	UpBack,
+	UpRight,
 }
