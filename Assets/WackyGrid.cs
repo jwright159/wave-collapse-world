@@ -19,11 +19,12 @@ public class WackyGrid : MonoBehaviour
 			mesh.Clear();
 
 		GenerateGrid(out Vector3[] vertices, out List<(int, int)> edges, out List<(int, int)> edgesValidForRemoval, out List<Cell> cells);
+		List<(int, int)> removedEdges = new List<(int, int)>();
 		while (edgesValidForRemoval.Count > 0)
-			IterateEdgeRemoval(edges, edgesValidForRemoval, cells);
+			IterateEdgeRemoval(edges, edgesValidForRemoval, removedEdges, cells);
 		this.cells = cells.ToArray();
 
-		FinalizeMesh(mesh, vertices, edges, edgesValidForRemoval, this.cells);
+		FinalizeMesh(mesh, vertices, edges, edgesValidForRemoval, removedEdges, this.cells);
 	}
 
 	private static void GenerateGrid(out Vector3[] vertices, out List<(int, int)> edges, out List<(int, int)> edgesValidForRemoval, out List<Cell> cells)
@@ -351,11 +352,12 @@ public class WackyGrid : MonoBehaviour
 			cell.FinalizeNeighbors(cellGrid);
 	}
 
-	private static void IterateEdgeRemoval(List<(int, int)> edges, List<(int, int)> edgesValidForRemoval, List<Cell> cells)
+	private static void IterateEdgeRemoval(List<(int, int)> edges, List<(int, int)> edgesValidForRemoval, List<(int, int)> removedEdges, List<Cell> cells)
 	{
 		int edgeIndex = Random.Range(0, edgesValidForRemoval.Count);
 		(int, int) edge = edgesValidForRemoval[edgeIndex];
 		edgesValidForRemoval.RemoveAt(edgeIndex);
+		removedEdges.Add(edge);
 
 		Cell[] contents = (from cell in cells
 						   where cell.vertices.Contains(edge.Item1) && cell.vertices.Contains(edge.Item2)
@@ -395,15 +397,23 @@ public class WackyGrid : MonoBehaviour
 		}
 	}
 
-	private static void FinalizeMesh(Mesh mesh, Vector3[] vertices, List<(int, int)> edges, List<(int, int)> edgesValidForRemoval, Cell[] cells)
+	private static void FinalizeMesh(Mesh mesh, Vector3[] vertices, List<(int, int)> edges, List<(int, int)> edgesValidForRemoval, List<(int, int)> removedEdges, Cell[] cells)
 	{
 		mesh.vertices = vertices;
-		mesh.subMeshCount = 2;
+		mesh.subMeshCount = 3;
 		mesh.SetIndices(edges.SelectMany(((int a, int b) edge) => new int[] { edge.a, edge.b }).ToArray(), MeshTopology.Lines, 0);
 		mesh.SetIndices(edgesValidForRemoval.SelectMany(((int a, int b) edge) => new int[] { edge.a, edge.b }).ToArray(), MeshTopology.Lines, 1);
+		mesh.SetIndices(removedEdges.SelectMany(((int a, int b) edge) => new int[] { edge.a, edge.b }).ToArray(), MeshTopology.Lines, 2);
 
 		foreach (Cell cell in cells)
 			cell.FinalizeMesh(mesh);
+	}
+
+	private static void SubdivideTetra()
+	{
+		int[] originalVertex = new int[4];
+		List<int>[] cellVertices = new List<int>[4];
+		List<(int, int)>[] cellEdges = new List<(int, int)>[4];
 	}
 
 	private void OnDrawGizmos()
@@ -476,3 +486,28 @@ public enum CellDirection
 	UpBack,
 	UpRight,
 }
+
+/*** SUBDIVISION
+ * For tetras:
+ * 
+ * All 4 combinations of 3 of the 4 vertices give you a face
+ * 
+ * Make a midpoint on each edge. Make edges between them, for a cube labeled after each primary vertex
+ * 
+ * For each face, make a new vertex at its center
+ * 
+ * Make an edge from each midpoint to 
+ * 
+ * 
+ * 
+ * For hexes:
+ * 
+ * Start with a vertex
+ * Get its immediate neighbors
+ * The mutual neighbors of those neighbors give you half the faces
+ * 
+ * 
+ * 
+ * Just starting at a vertex of a subcell and getting its neighbors gives you the 3 axes
+ * 
+ */
