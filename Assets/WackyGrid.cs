@@ -7,106 +7,95 @@ public class WackyGrid : MonoBehaviour
 {
 	private Mesh mesh;
 
-	private int xways = 20, yways = 20, zways = 20;
+	private const int xways = 5, yways = 5, zways = 5;
 
 	private void OnValidate()
 	{
-		if (mesh)
-			DestroyImmediate(mesh);
-		mesh = new Mesh();
-		GetComponent<MeshFilter>().mesh = mesh;
+		if (!mesh)
+			mesh = GetComponent<MeshFilter>().mesh = new Mesh();
+		else
+			mesh.Clear();
 		GenerateRhombuses();
 	}
 
 	private void GenerateRhombuses()
 	{
 		List<Vector3> vertices = new List<Vector3>();
+		int[,,,] vertexGrid = new int[xways + 1, yways + 1, zways + 1, 2];
 		List<(int, int)> edges = new List<(int, int)>();
 		List<(int, int)> edgesValidForRemoval = new List<(int, int)>();
 
-		for (int z = 0; z < zways; z++)
+		for (int z = 0; z <= zways; z++)
 		{
-			for (int y = 0; y < yways; y++)
+			for (int y = 0; y <= yways; y++)
 			{
-				for (int x = 0; x < xways; x++)
+				for (int x = 0; x <= xways; x++)
 				{
 					vertices.Add(new Vector3(x, y, z));
-					vertices.Add(new Vector3(x + 0.5f, y + 0.5f, z + 0.5f));
+					vertexGrid[x, y, z, 0] = vertices.Count - 1;
 
-					int thisCorner = vertices.Count - 2;
-					int thisCenter = vertices.Count - 1;
+					if (x < xways && y < yways && z < zways)
+					{
+						vertices.Add(new Vector3(x + 0.5f, y + 0.5f, z + 0.5f));
+						vertexGrid[x, y, z, 1] = vertices.Count - 1;
+					}
 
-					bool isOnNearWall = x == 0 || y == 0 || z == 0;
-					bool isOnFarWall = x == xways - 1 || y == yways - 1 || z == zways - 1;
-					bool isOnWall = isOnNearWall || isOnFarWall;
-
-					if (((x > 0 && y > 0 && z > 0) || (!(x > 0 ^ y > 0 ^ z > 0) && (x > 0 || y > 0 || z > 0))) &&
-						!((x == xways - 1 && y == yways - 1) || (x == xways - 1 && z == zways - 1) || (y == yways - 1 && z == zways - 1)))
-						(isOnWall ? edges : edgesValidForRemoval).Add((thisCorner, thisCenter));
+					if (x < xways && y < yways && z < zways)
+					{
+						edgesValidForRemoval.Add((vertexGrid[x, y, z, 0], vertexGrid[x, y, z, 1]));
+					}
 
 					if (x > 0)
 					{
-						int leftCorner = thisCorner - (1) * 2;
-						int leftCenter = thisCenter - (1) * 2;
+						edges.Add((vertexGrid[x - 1, y, z, 0], vertexGrid[x, y, z, 0]));
 
-						edges.Add((leftCorner, thisCorner));
-						edges.Add((leftCenter, thisCenter));
-						if ((y > 0 || z > 0) && (y < yways - 1 || z < zways - 1))
-							(x == 0 || y == 0 || z == 0 || y == yways - 1 || z == zways - 1 ? edges : edgesValidForRemoval).Add((leftCenter, thisCorner));
+						if (x < xways)
+							edges.Add((vertexGrid[x - 1, y, z, 1], vertexGrid[x, y, z, 1]));
+
+						if (y < yways && z < zways)
+							edgesValidForRemoval.Add((vertexGrid[x - 1, y, z, 1], vertexGrid[x, y, z, 0]));
 					}
 
 					if (y > 0)
 					{
-						int downCorner = thisCorner - (xways) * 2;
-						int downCenter = thisCenter - (xways) * 2;
+						edges.Add((vertexGrid[x, y - 1, z, 0], vertexGrid[x, y, z, 0]));
 
-						edges.Add((downCorner, thisCorner));
-						edges.Add((downCenter, thisCenter));
-						if ((x > 0 || z > 0) && (x < xways - 1 || z < zways - 1))
-							(x == 0 || y == 0 || z == 0 || x == xways - 1 || z == zways - 1 ? edges : edgesValidForRemoval).Add((downCenter, thisCorner));
+						if (y < yways)
+							edges.Add((vertexGrid[x, y - 1, z, 1], vertexGrid[x, y, z, 1]));
+						
+						if (x < xways && z < zways)
+							edgesValidForRemoval.Add((vertexGrid[x, y - 1, z, 1], vertexGrid[x, y, z, 0]));
 					}
 
 					if (z > 0)
 					{
-						int backCorner = thisCorner - (xways * yways) * 2;
-						int backCenter = thisCenter - (xways * yways) * 2;
+						edges.Add((vertexGrid[x, y, z - 1, 0], vertexGrid[x, y, z, 0]));
 
-						edges.Add((backCorner, thisCorner));
-						edges.Add((backCenter, thisCenter));
-						if ((x > 0 || y > 0) && (x < xways - 1 || y < yways - 1))
-							(x == 0 || y == 0 || z == 0 || x == xways - 1 || y == yways - 1 ? edges : edgesValidForRemoval).Add((backCenter, thisCorner));
+						if (z < zways)
+							edges.Add((vertexGrid[x, y, z - 1, 1], vertexGrid[x, y, z, 1]));
+
+						if (x < xways && y < yways)
+							edgesValidForRemoval.Add((vertexGrid[x, y, z - 1, 1], vertexGrid[x, y, z, 0]));
 					}
 
-					if (x > 0 && y > 0)
+					if (x > 0 && y > 0 && z < zways)
 					{
-						int downLeftCorner = thisCorner - (xways + 1) * 2;
-						int downLeftCenter = thisCenter - (xways + 1) * 2;
-
-						(z == 0 || z == zways - 1 ? edges : edgesValidForRemoval).Add((downLeftCenter, thisCorner));
+						edgesValidForRemoval.Add((vertexGrid[x - 1, y - 1, z, 1], vertexGrid[x, y, z, 0]));
 					}
 
-					if (x > 0 && z > 0)
+					if (x > 0 && y < yways && z > 0)
 					{
-						int backLeftCorner = thisCorner - (xways * yways + 1) * 2;
-						int backLeftCenter = thisCenter - (xways * yways + 1) * 2;
-
-						(y == 0 || y == yways - 1 ? edges : edgesValidForRemoval).Add((backLeftCenter, thisCorner));
+						edgesValidForRemoval.Add((vertexGrid[x - 1, y, z - 1, 1], vertexGrid[x, y, z, 0]));
 					}
 
-					if (y > 0 && z > 0)
+					if (x < xways && y > 0 && z > 0)
 					{
-						int backDownCorner = thisCorner - (xways * yways + xways) * 2;
-						int backDownCenter = thisCenter - (xways * yways + xways) * 2;
-
-						(x == 0 || x == xways - 1 ? edges : edgesValidForRemoval).Add((backDownCenter, thisCorner));
+						edgesValidForRemoval.Add((vertexGrid[x, y - 1, z - 1, 1], vertexGrid[x, y, z, 0]));
 					}
 
 					if (x > 0 && y > 0 && z > 0)
 					{
-						int backDownLeftCorner = thisCorner - (xways * yways + xways + 1) * 2;
-						int backDownLeftCenter = thisCenter - (xways * yways + xways + 1) * 2;
-
-						edgesValidForRemoval.Add((backDownLeftCenter, thisCorner));
+						edgesValidForRemoval.Add((vertexGrid[x - 1, y - 1, z - 1, 1], vertexGrid[x, y, z, 0]));
 					}
 				}
 			}
