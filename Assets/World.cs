@@ -7,7 +7,12 @@ public class World : MonoBehaviour
 	public int width = 50;
 	public int height = 50;
 
-	public Dictionary<Vector2, List<WorldPiece>> map = new Dictionary<Vector2, List<WorldPiece>>();
+	public Space[,] map;
+
+	private void Awake()
+	{
+		map = new Space[width, height];
+	}
 
 	private void Update()
 	{
@@ -17,14 +22,11 @@ public class World : MonoBehaviour
 	private void Iterate()
 	{
 		// Find a space to work on
-		Vector2 start = Vector2.zero; // TODO
+		(int x, int y) = (Random.Range(0, width), Random.Range(0, height)); // TODO
 
 		// Decide that space
-		List<WorldPiece> possibilities = map.ContainsKey(start) ? map[start] : new List<WorldPiece>(WorldPiece.pieces);
-		WorldPiece chosenPiece = WeightSelector.RandomWeighted(possibilities);
-
-		map[start] = new List<WorldPiece>();
-		map[start].Add(chosenPiece);
+		Space space = map[x, y] ?? (map[x, y] = new Space());
+		space.CollapseFully();
 
 		// Propagate
 		Propagate(start);
