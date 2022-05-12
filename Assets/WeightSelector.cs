@@ -22,4 +22,9 @@ public static class WeightSelector
 		}
 		throw new InvalidOperationException($"Couldn't get a random value from {source}, left with {chosenWeight} weight");
 	}
+
+	public static T RandomOf<T>(IEnumerable<T> source)
+	{
+		return source.ElementAt(UnityEngine.Random.Range(0, source.Count()));
+	}
 }

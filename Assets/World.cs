@@ -9,9 +9,12 @@ public class World : MonoBehaviour
 
 	public Space[,] map;
 
-	private void Awake()
+	private void Start()
 	{
 		map = new Space[width, height];
+		for (int i = 0; i < width; i++)
+			for (int j = 0; j < height; j++)
+				map[i, j] = new Space(this, i, j);
 	}
 
 	private void Update()
@@ -22,18 +25,41 @@ public class World : MonoBehaviour
 	private void Iterate()
 	{
 		// Find a space to work on
-		(int x, int y) = (Random.Range(0, width), Random.Range(0, height)); // TODO
+		IEnumerable<Space> uncollapsedSpaces = from space in map.Cast<Space>() where space.Piece == null orderby space.Possibilities select space;
+		if (uncollapsedSpaces.Count() == 0)
+		{
+			Destroy(gameObject);
+			return;
+		}
+		int possibilities = uncollapsedSpaces.First().Possibilities;
+		Space startSpace = WeightSelector.RandomOf(from space in uncollapsedSpaces where space.Possibilities == possibilities select space);
 
 		// Decide that space
-		Space space = map[x, y] ?? (map[x, y] = new Space());
-		space.CollapseFully();
+		startSpace.CollapseFully();
 
 		// Propagate
-		Propagate(start);
+		List<Space> spacesToCollapse = new List<Space>();
+		spacesToCollapse.AddAllIf(space => IsSpaceCollapsable(space, spacesToCollapse),
+			startSpace.Right, startSpace.Left, startSpace.Forward, startSpace.Back, startSpace.Up, startSpace.Down);
+
+		while (spacesToCollapse.Count > 0)
+		{
+			Space collapsingSpace = spacesToCollapse.Pop();
+			if (collapsingSpace.Collapse())
+				spacesToCollapse.AddAllIf(space => IsSpaceCollapsable(space, spacesToCollapse),
+					collapsingSpace.Right, collapsingSpace.Left, collapsingSpace.Forward, collapsingSpace.Back, collapsingSpace.Up, collapsingSpace.Down);
+		}
 	}
 
-	private void Propagate(Vector2 space)
+	public Space this[int x, int y]
 	{
-
+		get
+		{
+			if (x < 0 || x >= width || y < 0 || y >= height)
+				return null;
+			return map[x, y];
+		}
 	}
+
+	public static bool IsSpaceCollapsable(Space space, List<Space> list) => space != null && space.Piece == null && !list.Contains(space);
 }

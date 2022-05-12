@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e2ab5c5b1c888448bcae3aaa61d717e, type: 3}
+  m_Name: Grass
+  m_EditorClassIdentifier: 
+  pieceMesh: {fileID: 644592269852239208, guid: 9bc9bc136b4d2b14baee2132a68d127b, type: 3}
+  rightID:
+    id: 01000000
+  leftID:
+    id: 01000000
+  forwardID:
+    id: 01000000
+  backID:
+    id: 01000000
+  upID:
+    id: 02000000
+  downID:
+    id: 02000000
+  weight: 1
+  quarterRotationSymmetry: 0
+  halfRotationSymmetry: 0
+  threeQuarterRotationSymmetry: 0
