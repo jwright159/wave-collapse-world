@@ -3,17 +3,81 @@ using System.Linq;
 using UnityEngine;
 
 [Serializable]
-public struct PieceMaterialID
+public class PieceMaterialID
 {
+	[SerializeField]
+	private int width;
+
 	[SerializeField]
 	private PieceMaterial[] id;
 
-	public PieceMaterialID Complement => new(id.Reverse().ToArray());
-
-	public static PieceMaterialID none = new(new PieceMaterial[0]);
-
-	public PieceMaterialID(params PieceMaterial[] id)
+	public PieceMaterialID Complement
 	{
+		get
+		{
+			PieceMaterial[] newid = new PieceMaterial[width * width];
+			for (int x = 0; x < width; x++)
+				for (int y = 0; y < width; y++)
+					newid[(width - x - 1) + y * width] = id[x + y * width];
+			return new(width, newid);
+		}
+	}
+
+	public PieceMaterialID RotatedRight
+	{
+
+		get
+		{
+			PieceMaterial[] newid = new PieceMaterial[width * width];
+			for (int x = 0; x < width; x++)
+				for (int y = 0; y < width; y++)
+					newid[(width - y - 1) + x * width] = id[x + y * width];
+			return new(width, newid);
+		}
+	}
+
+	public PieceMaterialID RotatedHalf
+	{
+
+		get
+		{
+			PieceMaterial[] newid = new PieceMaterial[width * width];
+			for (int x = 0; x < width; x++)
+				for (int y = 0; y < width; y++)
+					newid[(width - x - 1) + (width - y - 1) * width] = id[x + y * width];
+			return new(width, newid);
+		}
+	}
+
+	public PieceMaterialID RotatedLeft
+	{
+
+		get
+		{
+			PieceMaterial[] newid = new PieceMaterial[width * width];
+			for (int x = 0; x < width; x++)
+				for (int y = 0; y < width; y++)
+					newid[y + (width - x - 1) * width] = id[x + y * width];
+			return new(width, newid);
+		}
+	}
+
+	public PieceMaterialID(int width, PieceMaterial[] id)
+	{
+		Debug.Assert(width * width == id.Length);
+		this.width = width;
+		this.id = id;
+	}
+
+	public void Resize(int width)
+	{
+		PieceMaterial[] id = new PieceMaterial[width * width];
+
+		for (int x = 0; x < width; x++)
+			for (int y = 0; y < width; y++)
+				id[x + y * width] = this.width == 0 ? 0 : this.id[(int)((float)x / width * this.width) + (int)((float)y / width * this.width) * this.width];
+
+		this.width = width;
 		this.id = id;
 	}
 
@@ -25,7 +89,7 @@ public struct PieceMaterialID
 		}
 
 		PieceMaterialID other = (PieceMaterialID)obj;
-		return id.SequenceEqual(other.id);
+		return id.Cast<PieceMaterial>().SequenceEqual(other.id.Cast<PieceMaterial>());
 	}
 
 	public override int GetHashCode()

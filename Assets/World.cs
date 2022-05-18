@@ -6,15 +6,17 @@ public class World : MonoBehaviour
 {
 	public int width = 50;
 	public int height = 50;
+	public int depth = 50;
 
-	public Space[,] map;
+	public Space[,,] map;
 
 	private void Start()
 	{
-		map = new Space[width, height];
+		map = new Space[width, height, depth];
 		for (int i = 0; i < width; i++)
 			for (int j = 0; j < height; j++)
-				map[i, j] = new Space(this, i, j);
+				for (int k = 0; k < depth; k++)
+					map[i, j, k] = new Space(this, i, j, k);
 	}
 
 	private void Update()
@@ -51,13 +53,13 @@ public class World : MonoBehaviour
 		}
 	}
 
-	public Space this[int x, int y]
+	public Space this[int x, int y, int z]
 	{
 		get
 		{
-			if (x < 0 || x >= width || y < 0 || y >= height)
+			if (x < 0 || x >= width || y < 0 || y >= height || z < 0 || z >= depth)
 				return null;
-			return map[x, y];
+			return map[x, y, z];
 		}
 	}
 

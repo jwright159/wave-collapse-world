@@ -18,4 +18,6 @@ public static class ExtensionMethods
 	}
 
 	public static void AddAllAsSet<T>(this List<T> list, params T[] objs) => list.AddAllIf(obj => obj != null && !list.Contains(obj), objs);
+
+	public static float Mod(float k, float n) => ((k %= n) < 0) ? k + n : k;
 }

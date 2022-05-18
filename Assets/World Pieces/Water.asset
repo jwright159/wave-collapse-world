@@ -14,18 +14,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pieceMesh: {fileID: 8276588670597242938, guid: 151680901de93194aaebb1566b9a31d1, type: 3}
   rightID:
-    id: 00000000
+    width: 3
+    id: ffdba600ffdba600ffdba600e75b3b00e75b3b00e75b3b00006102000061020000610200
   leftID:
-    id: 00000000
-  forwardID:
-    id: 00000000
-  backID:
-    id: 00000000
+    width: 3
+    id: ffdba600ffdba600ffdba600e75b3b00e75b3b00e75b3b00006102000061020000610200
   upID:
-    id: 02000000
+    width: 1
+    id: ffdba600
   downID:
-    id: 02000000
-  weight: 1
+    width: 1
+    id: 00610200
+  forwardID:
+    width: 3
+    id: ffdba600ffdba600ffdba600e75b3b00e75b3b00e75b3b00006102000061020000610200
+  backID:
+    width: 3
+    id: ffdba600ffdba600ffdba600e75b3b00e75b3b00e75b3b00006102000061020000610200
+  weight: 0.9
   quarterRotationSymmetry: 0
   halfRotationSymmetry: 0
   threeQuarterRotationSymmetry: 0

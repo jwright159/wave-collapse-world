@@ -7,24 +7,27 @@ public class Space
 {
 	private readonly List<WorldPiece> possibilities;
 	private readonly World world;
-	private readonly int x, y;
+	private readonly int x, y, z;
 
-	public Space Right => world[x + 1, y];
-	public Space Left => world[x - 1, y];
-	public Space Forward => world[x, y + 1];
-	public Space Back => world[x, y - 1];
-	public Space Up => null;
-	public Space Down => null;
+	public Space Right => world[x + 1, y, z];
+	public Space Left => world[x - 1, y, z];
+	public Space Up => world[x, y + 1, z];
+	public Space Down => world[x, y - 1, z];
+	public Space Forward => world[x, y, z + 1];
+	public Space Back => world[x, y, z - 1];
 
 	public WorldPiece Piece => possibilities.Count == 1 ? possibilities[0] : null;
 	public int Possibilities => possibilities.Count;
 	
-	public Space(World world, int x, int y)
+	public Space(World world, int x, int y, int z)
 	{
-		possibilities = new List<WorldPiece>(WorldPiece.pieces);
+		possibilities = //world.edgePiece != null && (x == 0 || x == world.width - 1 || y == 0 || y == world.height - 1 || z == 0 || z == world.depth - 1) ?
+			//new List<WorldPiece>(new WorldPiece[] { world.edgePiece }) :
+			new List<WorldPiece>(WorldPiece.pieces);
 		this.world = world;
 		this.x = x;
 		this.y = y;
+		this.z = z;
 
 		VerifyFinality();
 	}
@@ -52,10 +55,10 @@ public class Space
 
 		RemovePiece(Right,		piece => piece.rightID,		piece => piece.leftID);
 		RemovePiece(Left,		piece => piece.leftID,		piece => piece.rightID);
-		RemovePiece(Forward,	piece => piece.forwardID,	piece => piece.backID);
-		RemovePiece(Back,		piece => piece.backID,		piece => piece.forwardID);
 		RemovePiece(Up,			piece => piece.upID,		piece => piece.downID);
 		RemovePiece(Down,		piece => piece.downID,		piece => piece.upID);
+		RemovePiece(Forward,	piece => piece.forwardID,	piece => piece.backID);
+		RemovePiece(Back,		piece => piece.backID,		piece => piece.forwardID);
 
 		VerifyFinality();
 
@@ -67,8 +70,8 @@ public class Space
 		if (Piece != null)
 		{
 			GameObject piece = UnityEngine.Object.Instantiate(Piece.pieceMesh);
-			piece.name = $"WorldPiece<{world.gameObject.name},{x},{y}>";
-			piece.transform.position = new Vector3(world.transform.position.x + x + 0.5f, world.transform.position.y, world.transform.position.z + y + 0.5f);
+			piece.name = $"WorldPiece<{world.gameObject.name},{x},{y},{z}>";
+			piece.transform.position = new Vector3(world.transform.position.x + x + 0.5f, world.transform.position.y + y + 0.5f, world.transform.position.z + z + 0.5f);
 		}
 	}
 }

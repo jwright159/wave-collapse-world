@@ -10,28 +10,28 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5e2ab5c5b1c888448bcae3aaa61d717e, type: 3}
-  m_Name: Grass
+  m_Name: Cliff Side Edge
   m_EditorClassIdentifier: 
-  pieceMesh: {fileID: 644592269852239208, guid: 9bc9bc136b4d2b14baee2132a68d127b, type: 3}
+  pieceMesh: {fileID: 2802511828097175282, guid: 9430d84d8993b9b49ad370f25f1f97f1, type: 3}
   rightID:
-    width: 2
-    id: ffdba600ffdba6000061020000610200
-  leftID:
-    width: 2
-    id: ffdba600ffdba6000061020000610200
-  upID:
     width: 1
     id: ffdba600
-  downID:
-    width: 1
-    id: 00610200
-  forwardID:
+  leftID:
     width: 2
-    id: ffdba600ffdba6000061020000610200
+    id: ffdba60000610200ffdba60000610200
+  upID:
+    width: 2
+    id: ffdba600ffdba60000610200ffdba600
+  downID:
+    width: 2
+    id: ffdba600ffdba600ffdba60000610200
+  forwardID:
+    width: 1
+    id: ffdba600
   backID:
     width: 2
-    id: ffdba600ffdba6000061020000610200
-  weight: 1
+    id: 00610200ffdba60000610200ffdba600
+  weight: 0.1
   quarterRotationSymmetry: 1
   halfRotationSymmetry: 1
   threeQuarterRotationSymmetry: 1

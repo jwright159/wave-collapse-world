@@ -8,10 +8,10 @@ public class WorldPieceDefinition : ScriptableObject
 	public GameObject pieceMesh;
 	public PieceMaterialID rightID;
 	public PieceMaterialID leftID;
-	public PieceMaterialID forwardID;
-	public PieceMaterialID backID;
 	public PieceMaterialID upID;
 	public PieceMaterialID downID;
+	public PieceMaterialID forwardID;
+	public PieceMaterialID backID;
 	public float weight = 1;
 
 	public bool quarterRotationSymmetry;
@@ -28,13 +28,14 @@ public class WorldPieceDefinition : ScriptableObject
 		{
 			WorldPiece.pieces.Add(new WorldPiece
 			{
+				definition = this,
 				pieceMesh = Instantiate(pieceMesh, Vector3.zero, Quaternion.Euler(0, 0, 0)),
 				rightID = rightID,
 				leftID = leftID,
-				forwardID = forwardID,
-				backID = backID,
 				upID = upID,
 				downID = downID,
+				forwardID = forwardID,
+				backID = backID,
 				weight = weight / numSymmetry,
 			});
 		}
@@ -43,13 +44,14 @@ public class WorldPieceDefinition : ScriptableObject
 		{
 			WorldPiece.pieces.Add(new WorldPiece
 			{
+				definition = this,
 				pieceMesh = Instantiate(pieceMesh, Vector3.zero, Quaternion.Euler(0, 90, 0)),
 				rightID = forwardID,
 				leftID = backID,
+				upID = upID.RotatedRight,
+				downID = downID.RotatedLeft,
 				forwardID = leftID,
 				backID = rightID,
-				upID = upID,
-				downID = downID,
 				weight = weight / numSymmetry,
 			});
 		}
@@ -58,13 +60,14 @@ public class WorldPieceDefinition : ScriptableObject
 		{
 			WorldPiece.pieces.Add(new WorldPiece
 			{
+				definition = this,
 				pieceMesh = Instantiate(pieceMesh, Vector3.zero, Quaternion.Euler(0, 180, 0)),
 				rightID = leftID,
 				leftID = rightID,
+				upID = upID.RotatedHalf,
+				downID = downID.RotatedHalf,
 				forwardID = backID,
 				backID = forwardID,
-				upID = upID,
-				downID = downID,
 				weight = weight / numSymmetry,
 			});
 		}
@@ -73,13 +76,14 @@ public class WorldPieceDefinition : ScriptableObject
 		{
 			WorldPiece.pieces.Add(new WorldPiece
 			{
-				pieceMesh = Instantiate(pieceMesh, Vector3.zero, Quaternion.Euler(0, -90, 0)),
+				definition = this,
+				pieceMesh = Instantiate(pieceMesh, Vector3.zero, Quaternion.Euler(0, 270, 0)),
 				rightID = backID,
 				leftID = forwardID,
+				upID = upID.RotatedLeft,
+				downID = downID.RotatedRight,
 				forwardID = rightID,
 				backID = leftID,
-				upID = upID,
-				downID = downID,
 				weight = weight / numSymmetry,
 			});
 		}
@@ -88,22 +92,24 @@ public class WorldPieceDefinition : ScriptableObject
 
 public enum PieceMaterial
 {
-	WATER,
-	GRASS,
-	AIR,
+	WATER = 0x3B5BE7,
+	GROUND = 0x026100,
+	AIR = 0xA6DBFF,
 }
 
 public class WorldPiece : IWeighted
 {
+	public WorldPieceDefinition definition;
+
 	public static List<WorldPiece> pieces;
 
 	public GameObject pieceMesh;
 	public PieceMaterialID rightID;
 	public PieceMaterialID leftID;
-	public PieceMaterialID forwardID;
-	public PieceMaterialID backID;
 	public PieceMaterialID upID;
 	public PieceMaterialID downID;
+	public PieceMaterialID forwardID;
+	public PieceMaterialID backID;
 	public float weight;
 
 	public float Weight => weight;
