@@ -11,6 +11,7 @@ public class WorldPieceLoader : MonoBehaviour
 		WorldPiece.pieces = new List<WorldPiece>();
 		foreach (WorldPieceDefinition piece in pieces)
 			piece.CreatePieces();
-		Destroy(gameObject);
+		foreach (WorldPiece piece in WorldPiece.pieces)
+			piece.transform.SetParent(transform, false);
 	}
 }

@@ -12,7 +12,11 @@ public class PieceMaterialIDDrawer : PropertyDrawer
 		float space = EditorGUIUtility.standardVerticalSpacing + EditorGUIUtility.singleLineHeight;
 		Event ev = Event.current;
 
-		property.isExpanded = EditorGUI.Foldout(new(position.x, position.y, position.width, EditorGUIUtility.singleLineHeight), property.isExpanded, label);
+		bool dirty = false;
+
+		bool wasExpanded = property.isExpanded;
+		property.isExpanded = EditorGUI.Foldout(new(position.x, position.y, position.width, EditorGUIUtility.singleLineHeight), wasExpanded, label);
+		dirty |= property.isExpanded != wasExpanded;
 		if (property.isExpanded)
 		{
 			SerializedProperty id = property.FindPropertyRelative("id");
@@ -48,7 +52,8 @@ public class PieceMaterialIDDrawer : PropertyDrawer
 		}
 
 		EditorGUI.EndProperty();
-		EditorUtility.SetDirty(property.serializedObject.targetObject);
+		if (dirty)
+			EditorUtility.SetDirty(property.serializedObject.targetObject);
 	}
 
 	public override float GetPropertyHeight(SerializedProperty property, GUIContent label)

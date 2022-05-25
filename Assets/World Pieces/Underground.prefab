@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3445519047579220904}
   - component: {fileID: 7205907338026094577}
   m_Layer: 0
-  m_Name: Air
+  m_Name: Underground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -47,22 +47,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rightID:
     width: 1
-    id: ffdba600
+    id: 00610200
   leftID:
     width: 1
-    id: ffdba600
+    id: 00610200
   upID:
     width: 1
-    id: ffdba600
+    id: 00610200
   downID:
     width: 1
-    id: ffdba600
+    id: 00610200
   forwardID:
     width: 1
-    id: ffdba600
+    id: 00610200
   backID:
     width: 1
-    id: ffdba600
+    id: 00610200
   weight: 1
   verticalRotationSymmetry: 0
   horizontalRotationSymmetry: 0

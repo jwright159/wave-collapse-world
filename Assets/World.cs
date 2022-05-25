@@ -10,6 +10,8 @@ public class World : MonoBehaviour
 
 	public Space[,,] map;
 
+	private bool done = false;
+
 	private void Start()
 	{
 		map = new Space[width, height, depth];
@@ -21,7 +23,8 @@ public class World : MonoBehaviour
 
 	private void Update()
 	{
-		Iterate();
+		if (!done)
+			Iterate();
 	}
 
 	private void Iterate()
@@ -30,7 +33,7 @@ public class World : MonoBehaviour
 		IEnumerable<Space> uncollapsedSpaces = from space in map.Cast<Space>() where space.Piece == null orderby space.Possibilities select space;
 		if (uncollapsedSpaces.Count() == 0)
 		{
-			Destroy(gameObject);
+			done = true;
 			return;
 		}
 		int possibilities = uncollapsedSpaces.First().Possibilities;

@@ -69,9 +69,9 @@ public class Space
 	{
 		if (Piece != null)
 		{
-			GameObject piece = UnityEngine.Object.Instantiate(Piece.pieceMesh);
+			GameObject piece = UnityEngine.Object.Instantiate(Piece.gameObject, world.transform);
 			piece.name = $"WorldPiece<{world.gameObject.name},{x},{y},{z}>";
-			piece.transform.position = new Vector3(world.transform.position.x + x + 0.5f, world.transform.position.y + y + 0.5f, world.transform.position.z + z + 0.5f);
+			piece.transform.localPosition = new Vector3(x + 0.5f, y + 0.5f, z + 0.5f);
 		}
 	}
 }

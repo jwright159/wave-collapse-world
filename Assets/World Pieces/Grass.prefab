@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7811199591963598047}
+  - component: {fileID: -3887823574862852833}
   m_Layer: 0
   m_Name: Grass
   m_TagString: Untagged
@@ -32,6 +33,39 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-3887823574862852833
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 644592269852239208}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e2ab5c5b1c888448bcae3aaa61d717e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rightID:
+    width: 2
+    id: ffdba600ffdba6000061020000610200
+  leftID:
+    width: 2
+    id: ffdba600ffdba6000061020000610200
+  upID:
+    width: 1
+    id: ffdba600
+  downID:
+    width: 1
+    id: 00610200
+  forwardID:
+    width: 2
+    id: ffdba600ffdba6000061020000610200
+  backID:
+    width: 2
+    id: ffdba600ffdba6000061020000610200
+  weight: 1
+  verticalRotationSymmetry: 1
+  horizontalRotationSymmetry: 1
 --- !u!1 &1675040783377084395
 GameObject:
   m_ObjectHideFlags: 0
@@ -93,7 +127,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -3035101939719975992, guid: 5a2501907017277488387b7898617b81, type: 3}
+  - {fileID: 2100000, guid: d5d60ad11f29e8e42b9ceb3268935bfa, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &4719542699980170180
+--- !u!1 &607853144852471947
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,46 +8,46 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4256479778220139783}
-  - component: {fileID: 3713392300118837127}
-  - component: {fileID: 3030254370282296709}
+  - component: {fileID: 7029463684732313437}
+  - component: {fileID: 5811114027097385093}
+  - component: {fileID: 5522109192305994876}
   m_Layer: 0
-  m_Name: Water Corner
+  m_Name: Cliff Inner Edge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4256479778220139783
+--- !u!4 &7029463684732313437
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4719542699980170180}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_GameObject: {fileID: 607853144852471947}
+  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071067}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 954480765647282387}
+  m_Father: {fileID: 7028629105299327510}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
---- !u!33 &3713392300118837127
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &5811114027097385093
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4719542699980170180}
-  m_Mesh: {fileID: -8614405497209095269, guid: 5a2501907017277488387b7898617b81, type: 3}
---- !u!23 &3030254370282296709
+  m_GameObject: {fileID: 607853144852471947}
+  m_Mesh: {fileID: -7056408948312188801, guid: 5a2501907017277488387b7898617b81, type: 3}
+--- !u!23 &5522109192305994876
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4719542699980170180}
+  m_GameObject: {fileID: 607853144852471947}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -62,7 +62,6 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: d5d60ad11f29e8e42b9ceb3268935bfa, type: 2}
-  - {fileID: 2100000, guid: d3fdc85b6be5e024a88c1161863824a4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -84,7 +83,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!1 &5713727191373558495
+--- !u!1 &4284881725582720491
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -92,61 +91,61 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 954480765647282387}
-  - component: {fileID: 4319890334240132457}
+  - component: {fileID: 7028629105299327510}
+  - component: {fileID: 2061934925013545662}
   m_Layer: 0
-  m_Name: Water Corner
+  m_Name: Cliff Inner Edge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &954480765647282387
+--- !u!4 &7028629105299327510
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5713727191373558495}
+  m_GameObject: {fileID: 4284881725582720491}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 4256479778220139783}
+  - {fileID: 7029463684732313437}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4319890334240132457
+--- !u!114 &2061934925013545662
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5713727191373558495}
+  m_GameObject: {fileID: 4284881725582720491}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5e2ab5c5b1c888448bcae3aaa61d717e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   rightID:
-    width: 3
-    id: ffdba600ffdba600ffdba6000061020000610200e75b3b00006102000061020000610200
-  leftID:
     width: 2
     id: ffdba600ffdba6000061020000610200
-  upID:
+  leftID:
     width: 1
-    id: ffdba600
+    id: 00610200
+  upID:
+    width: 2
+    id: 00610200ffdba60000610200ffdba600
   downID:
     width: 1
     id: 00610200
   forwardID:
-    width: 3
-    id: ffdba600ffdba600ffdba600e75b3b000061020000610200006102000061020000610200
+    width: 2
+    id: ffdba600006102000061020000610200
   backID:
     width: 2
-    id: ffdba600ffdba6000061020000610200
-  weight: 0.2
+    id: 00610200ffdba6000061020000610200
+  weight: 0.1
   verticalRotationSymmetry: 1
-  horizontalRotationSymmetry: 0
+  horizontalRotationSymmetry: 1
